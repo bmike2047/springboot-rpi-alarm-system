@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:fragment="header(links)">
+    <script type="text/javascript" th:src="@{/assets/js/color-modes.js}"></script>
+    <script type="text/javascript" th:src="@{/assets/js/jquery-3.7.1.min.js}"></script>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/images/rpi.svg}">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Spring Boot - Raspberry Pi - Alarm system">
+    <title>Raspberry Pi - Alarm system</title>
+
+    <link rel="stylesheet" th:href="@{/assets/css/css@3.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/commons.css}">
+
+    <th:block th:replace="${links}" />
+
+</head>
+<body>
+
+
+
+<nav th:fragment="nav-bar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/hub">Raspberry Pi - Alarm system</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav me-auto mb-2 mb-md-0"></div>
+            <form class="d-flex" th:action="@{/logout}" method="post">
+                <button class="btn btn-warning" type="submit">Log out</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<script th:fragment="main-js" type="text/javascript" th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{components :: header(~{::link})}">
+    <link rel="stylesheet" th:href="@{/assets/css/log-in.css}">
+</head>
+
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+
+<main class="form-login w-100 m-auto">
+    <form th:action="@{/login}" method="post">
+        <div class="row align-items-center">
+            <div class="col-3">
+                <img class="mb-4" th:src="@{/assets/images/rpi.svg}" alt="" width="72" height="57">
+            </div>
+            <div class="col">
+                <p>Raspberry Pi - Alarm system</p>
+            </div>
+        </div>
+        <h1 class="h3 mb-3 fw-normal">Please log in</h1>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="username">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                   name="password">
+            <label for="floatingPassword">Password</label>
+        </div>
+
+        <button class="btn btn-primary w-100 py-2" type="submit">Log in</button>
+        <div th:if="${param.error}" class="alert alert-danger mt-3">
+            Invalid username or password
+        </div>
+        <div th:if="${param.logout}" class="alert alert-warning mt-3">
+            You have been logged out
+        </div>
+
+    </form>
+</main>
+
+<script th:replace="~{components :: main-js}"></script>
+
+</body>
+</html>

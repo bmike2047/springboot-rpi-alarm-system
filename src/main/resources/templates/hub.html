@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{components :: header(~{::link})}">
+    <link rel="stylesheet" th:href="@{/assets/css/navbar-fixed.css}">
+</head>
+<body onload="updateStatus()">
+
+<nav th:replace="~{components :: nav-bar}"></nav>
+
+<script type="text/javascript">
+    function removeAlertSuccess(){
+        $('#alertSuccess').fadeOut(1000, function() {
+           $( "#alertSuccess" ).remove();
+        });
+    }
+    function updateStatus() {
+       $.get("/hub/status").done(function(res) {
+        $("#alarmHubStatus").replaceWith(res);
+    });
+    setTimeout(updateStatus,2500);
+    setTimeout(removeAlertSuccess,4000);
+}
+</script>
+
+<div class="container" id="alertSuccess" th:if="${param.opSuccess}">
+    <div class="alert alert-success">
+        Operation completed successfully
+    </div>
+</div>
+
+<div class="container" th:if="${param.opError}">
+    <div class="alert alert-danger">
+        Operation was not successful
+    </div>
+</div>
+
+<div class="container">
+    <div class="bg-info-subtle p-3 rounded">
+        <p class="mb-1"><strong>System status:&nbsp;</strong><span id="alarmHubStatus"
+                                                                              th:text="${hub.currentState.class.simpleName.toUpperCase()}"></span></p>
+    </div>
+</div>
+<div class="mt-3"></div>
+
+<div class="container">
+    <div class="bg-body-tertiary p-3 rounded">
+        <h5>Arm system</h5>
+        <p>Arm the alarm system by pressing the button below. A delay of <span th:text="${hub.countdownDuration}"></span> seconds will allow you to exit the house</p>
+        <a class="btn btn-primary" href="/hub/arm" role="button">Arm</a>
+    </div>
+</div>
+<div class="mt-3"></div>
+
+<div class="container">
+    <div class="bg-body-tertiary p-3 rounded">
+        <h5>Disarm system</h5>
+        <p>Disarm the alarm system by pressing the button below</p>
+        <a class="btn btn-primary" href="/hub/disarm" role="button">Disarm</a>
+    </div>
+</div>
+<div class="mt-3"></div>
+<div class="container">
+    <div class="bg-body-tertiary p-3 rounded">
+        <h5>Panic</h5>
+        <p>Instant trigger the alarm by pressing the button below</p>
+        <a class="btn btn-danger" href="/hub/panic" role="button">Panic</a>
+    </div>
+</div>
+<div class="mt-3"></div>
+<div class="container">
+    <div class="bg-body-tertiary p-3 rounded">
+        <h5>Change pin</h5>
+        <p>Change your alarm keypad pin by pressing the button below</p>
+        <a class="btn btn-primary" href="/hub/edit" role="button">Change pin</a>
+    </div>
+</div>
+
+
+<script th:replace="~{components :: main-js}"></script>
+
+</body>
+</html>

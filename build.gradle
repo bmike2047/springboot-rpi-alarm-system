@@ -1,0 +1,81 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.hidetake.ssh' version '2.11.2'
+
+}
+
+group = 'springboot.rpi.alarm'
+version = '1.0'
+
+application {
+    mainClassName = 'springboot.rpi.alarm.Application'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+
+remotes {
+    pi4 {
+        host = 'raspberrypi.fritz.box'
+        user = 'mike'
+        identity =  new File('~/.ssh/id_rsa')
+    }
+}
+
+tasks.register('deploy') {
+    dependsOn tasks.bootJar
+    doLast {
+        ssh.run {
+            session(remotes.pi4) {
+                put from: '/home/mike/code/springboot-rpi-alarm-system/build/libs/springboot-rpi-alarm-system-1.0.jar', into: '/home/mike/alarm'
+                execute 'kill $(ps aux | grep "springboot-rpi-alarm-system" | grep -v \'grep\' | awk \'{print $2}\')', ignoreError: true
+                execute 'cd /home/mike/alarm && java -jar springboot-rpi-alarm-system-1.0.jar'
+            }
+        }
+    }
+}
+
+tasks.register('poweroff') {
+    doLast {
+        ssh.run {
+            session(remotes.pi4) {
+                execute 'sudo poweroff'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.security:spring-security-config'
+    implementation 'org.springframework.security:spring-security-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'com.pi4j:pi4j-core:2.6.1'
+    implementation 'com.pi4j:pi4j-plugin-raspberrypi:2.6.1'
+    implementation 'com.pi4j:pi4j-plugin-gpiod:2.6.1'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    testImplementation 'com.pi4j:pi4j-plugin-mock:2.6.1'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}

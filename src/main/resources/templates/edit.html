@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{components :: header(~{::link})}">
+    <link rel="stylesheet" th:href="@{/assets/css/navbar-fixed.css}">
+</head>
+<body>
+
+<nav th:replace="~{components :: nav-bar}"></nav>
+
+<div class="container-sm">
+    <div class="bg-body-tertiary p-3 rounded">
+        <form th:action="@{/hub/save}"
+              th:object="${hub}" method="post">
+            <div class="row">
+                <label for="pin" class="form-label">Enter your new pin number</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="pin" th:field="*{pin}" placeholder="">
+                </div>
+
+                <div th:if="${#fields.hasErrors('pin')}" th:text="${#strings.listJoin(#fields.errors('pin'), ', ')}"
+                     class="invalid-feedback" id="birthday-error" style="display:block">
+                    Pin validation error message(s).
+                </div>
+
+            </div>
+            <div class="mt-3"></div>
+            <button class="btn btn-primary btn-sm" type="submit">Save</button>
+            <a class="btn btn-primary btn-sm" href="/hub" role="button">Back</a>
+        </form>
+
+    </div>
+</div>
+
+<script th:replace="~{components :: main-js}"></script>
+
+</body>
+</html>
