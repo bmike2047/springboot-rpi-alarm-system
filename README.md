@@ -22,7 +22,7 @@ The advantage of using Java is that it provides a mature multithreading library 
 * 1 x 1K&#937; 0.25W resistor
 * 3 x LED different colours
 * 1 x Breadboard
-* 20 x Jumper wires
+* 25 x Jumper wires
 
 ### Software
 #### Frontend
@@ -35,17 +35,17 @@ E.g. when running in local: http://localhost:8080/login
 ```
 > [!TIP]
 > Login credentials: admin/test<br/>
-> Other useful parameters for the alarm can be found and edited in ./springboot-rpi-alarm-system/src/main/resources/application.properties
+> Login credentials and other useful parameters for the alarm can be found and changed in ./springboot-rpi-alarm-system/src/main/resources/application.properties
 
 ![](assets/images/screen1.png)
 ![](assets/images/screen2.png)
 #### Backend
 The alarm system is based on a non-blocking Finite State Machine, meaning each state runs in its own thread allowing the web interface to not block while waiting for different operations.<br/>
-Multi-threaded java drivers for RPI are implemented using PI4J library for Keypad, PIR, LED and Buzzer.
+Multi-threaded reusable java drivers for RPI are implemented using PI4J library for Keypad, PIR, LED and Buzzer.<br/>
 Keypad driver includes debounce implementation also. 
 
 #### Operation
-The web interface is simple, you just log in and press the buttons for operation that you want. E.g., Arm the alarm system. A feedback message is provided if the operation was successful or not.<br/>
+For the web interface you just log in and press the buttons for operation that you want. E.g., Arm the alarm system. A feedback message is provided if the operation was successful or not.<br/>
 "Change pin" button allows you to actively change the pin that will be used by the keyboard to disarm the system."Disarm" button does not need any pin to disarm.<br/>
 "System status" field is updated automatically every 2.5 seconds via an Ajax call.
 
@@ -75,13 +75,13 @@ The latest Raspberry Pi OS should have Java 17+ already installed<br/>
 To run the project on your RPI board, download the jar file from the previous command and use the following:<br/>
 ```
 java -jar springboot-rpi-alarm-system-1.0.jar
+less +F alarm.log 
 ```
 
 ### Demo video
 TBD 
 
 > [!TIP]
-> An alarm.log file is provided in current directory of the running application.<br/>
 > Health-check for alarm system can be accessed via: http://raspberrypi.fritz.box:8080/actuator/health/application<br/>
 > In case any probe will need to check if the application is alive this endpoint will return an HTTP 200 OK: http://raspberrypi.fritz.box:8080/actuator/info<br/>
 
