@@ -24,7 +24,7 @@ The advantage of using Java is that it provides a mature multi-threading library
 
 ### Frontend
 Web interface is designed using Thymeleaf views and Bootstrap that runs on top of the embedded spring-boot's Tomcat server and Spring MVC<br/> 
-After connecting you RPI to your local network, access the board using  a web browser with the URL:
+After connecting your RPI to your local network, access the board using  a web browser with the URL:
 ```
 http://raspberrypi.[your-localrouter-dns]:8080/login
 E.g. for a fritzbox router: http://raspberrypi.fritz.box:8080/login 
@@ -44,12 +44,11 @@ Keypad driver includes debounce implementation also.
 ### Operation
 For the web interface you just log in and press the buttons for operation that you want. E.g., Arm the alarm system. A feedback message is provided if the operation was successful or not.<br/>
 "Change pin" button allows you to actively change the pin that will be used by the keypad to disarm the system.<br/>
-"Disarm" button does not need any pin to disarm.<br/>
 "System status" field is updated automatically every 2.5 seconds via an Ajax call.
 
 Keypad operation consists on 2 command:
 * Pressing key "A" will start the countdown with a duration configured in application.properties and then arm the system. At this point a body detected by the PIR sensor will trigger the alarm and activate the buzzer.<br/>
-* If an alarm triggered, to disarm the system press the following keys: D[PIN] E.g., default config keys: D1234<br/>
+* If an alarm triggered, to disarm the system press the following keys: D[PIN] E.g., for default config, press keys: D1234<br/>
 
 LED description:
 * Green LED means the alarm system software was started correctly and runs on your RPI board
@@ -60,7 +59,6 @@ LED description:
 <a href="https://youtu.be/xRUWgISEngM">
     <img src="https://img.youtube.com/vi/xRUWgISEngM/maxresdefault.jpg"  alt="Demo video"/>
 </a>
-
 
 
 ### Usage
